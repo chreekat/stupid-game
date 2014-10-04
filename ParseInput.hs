@@ -22,7 +22,7 @@ parseFile = do
 
   where
 
-    gameState trump (h1, h2) = GS trump h1 h2 []
+    gameState trump (h1, h2) = GS trump (P h1 1) (P h2 2) []
 
 -- "The trump suite is represented as the first line in data file by a
 -- letter: H|D|C|S."
