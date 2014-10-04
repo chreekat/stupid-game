@@ -1,7 +1,7 @@
 module Types where
 
 data GameState = GS {
-    trump :: Suite,
+    trump :: Suit,
     offense :: [Card],
     defense :: [Card],
     table :: [PlayedCard]
@@ -12,13 +12,15 @@ data PlayedCard = PC {
     cover :: Maybe Card
 }
 
-data Card = Card Suite Rank
+data Card = Card Suit Rank
 
-data Suite = Heart | Diamond | Club | Spade
+data Suit = Heart | Diamond | Club | Spade
+    deriving (Bounded, Enum)
 
 data Rank = R1 | R2 | R3 | R4 | R5 | R6 | R7 | R8 | R9 | RT | RJ | RQ | RK | RA
+    deriving (Bounded, Enum)
 
-instance Show Suite where
+instance Show Suit where
     show s = case s of
         Heart -> "♥"
         Diamond -> "♦"

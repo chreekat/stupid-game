@@ -149,5 +149,3 @@ Now a little parser for the data file.
 (See ParseInput.hs)
 
 Now to define the game actions.
-
-(See Game.hs)

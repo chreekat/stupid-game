@@ -3,6 +3,7 @@
 module ParseInput (parseInput) where
 
 import Control.Applicative ((<*), (<*>), (<$>), many)
+import Data.Maybe (fromJust)
 import Data.Text (Text)
 import qualified Data.Text as T
 import Data.Attoparsec.Text
@@ -25,10 +26,7 @@ parseFile = do
 
 -- "The trump suite is represented as the first line in data file by a
 -- letter: H|D|C|S."
-parseTrump = do
-    x <- parseSuit
-    endOfLine
-    return x
+parseTrump = parseSuit <* endOfLine
 
 -- "Two players get their cards which are represented by a line in the
 -- file: ST D2 CJ HQ DA | H2 D3 C4 S5 H6 D7 C8 S9"
@@ -40,28 +38,18 @@ parseSep = " | "
 
 parseCard = Card <$> parseSuit <*> parseRank
 
-parseSuit = do
-    x <- satisfy $ inClass "HDCS"
-    return $ case x of
-        'H' -> Heart
-        'D' -> Diamond
-        'C' -> Club
-        'S' -> Spade
+parseSuit :: Parser Suit
+parseSuit = magicParse "HDCS"
 
-parseRank = do
-    x <- satisfy $ inClass "123456789TJKQA"
-    return $ case x of
-        '1' -> R1
-        '2' -> R2
-        '3' -> R3
-        '4' -> R4
-        '5' -> R5
-        '6' -> R6
-        '7' -> R7
-        '8' -> R8
-        '9' -> R9
-        'T' -> RT
-        'J' -> RJ
-        'K' -> RK
-        'Q' -> RQ
-        'A' -> RA
+parseRank :: Parser Rank
+parseRank =  magicParse "123456789TJKQA"
+
+-- | Magically parses a value of type 'b' that has Enum and Bounded
+-- instances from a single character that represents that value (listed as a
+-- String of possibilities in 'keys').
+magicParse :: (Bounded b, Enum b) => String -> Parser b
+magicParse keys =
+    let pairs = zip keys [minBound..]
+    in do
+        x <- satisfy $ inClass keys
+        return . fromJust $ lookup x pairs
