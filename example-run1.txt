@@ -1,0 +1,561 @@
+Turn 1
+Attack with ♠2: State[
+  trump: ♦
+  o: P1[♦2,♠2,♣7,♥5,♠T]
+  d: P2[♥2,♣5,♠K,♠7,♠J]
+  t: 
+] -> State[
+  trump: ♦
+  o: P1[♦2,♣7,♥5,♠T]
+  d: P2[♥2,♣5,♠K,♠7,♠J]
+  t: ♠2/-
+]
+Passing against ♠2 with ♥2 from WrappedArray(♥2): State[
+  trump: ♦
+  o: P1[♦2,♣7,♥5,♠T]
+  d: P2[♥2,♣5,♠K,♠7,♠J]
+  t: ♠2/-
+] -> State[
+  trump: ♦
+  o: P2[♣5,♠K,♠7,♠J]
+  d: P1[♦2,♣7,♥5,♠T]
+  t: ♥2/-,♠2/-
+]
+Passing against ♥2 with ♦2 from WrappedArray(♦2): State[
+  trump: ♦
+  o: P2[♣5,♠K,♠7,♠J]
+  d: P1[♦2,♣7,♥5,♠T]
+  t: ♥2/-,♠2/-
+] -> State[
+  trump: ♦
+  o: P1[♣7,♥5,♠T]
+  d: P2[♣5,♠K,♠7,♠J]
+  t: ♦2/-,♥2/-,♠2/-
+]
+Cannot pass against ♦2: State[
+  trump: ♦
+  o: P1[♣7,♥5,♠T]
+  d: P2[♣5,♠K,♠7,♠J]
+  t: ♦2/-,♥2/-,♠2/-
+]
+Defending against List(♥2/-, ♠2/-, ♦2/-): State[
+  trump: ♦
+  o: P1[♣7,♥5,♠T]
+  d: P2[♣5,♠K,♠7,♠J]
+  t: ♦2/-,♥2/-,♠2/-
+]
+Can't defend against ♥2/-: State[
+  trump: ♦
+  o: P1[♣7,♥5,♠T]
+  d: P2[♣5,♠K,♠7,♠J]
+  t: ♦2/-,♥2/-,♠2/-
+]
+Cannot reinforce because offense doesn't have matching cards.
+Offense wins: State[
+  trump: ♦
+  o: P1[♣7,♥5,♠T]
+  d: P2[♣5,♠K,♠7,♠J]
+  t: ♦2/-,♥2/-,♠2/-
+]
+Turn ended: State[
+  trump: ♦
+  o: P1[♣7,♥5,♠T]
+  d: P2[♣5,♠K,♠7,♠J,♦2,♥2,♠2]
+  t: 
+]
+
+
+Turn 2
+Attack with ♥5: State[
+  trump: ♦
+  o: P1[♣7,♥5,♠T]
+  d: P2[♣5,♠K,♠7,♠J,♦2,♥2,♠2]
+  t: 
+] -> State[
+  trump: ♦
+  o: P1[♣7,♠T]
+  d: P2[♣5,♠K,♠7,♠J,♦2,♥2,♠2]
+  t: ♥5/-
+]
+Passing against ♥5 with ♣5 from ArrayBuffer(♣5): State[
+  trump: ♦
+  o: P1[♣7,♠T]
+  d: P2[♣5,♠K,♠7,♠J,♦2,♥2,♠2]
+  t: ♥5/-
+] -> State[
+  trump: ♦
+  o: P2[♠K,♠7,♠J,♦2,♥2,♠2]
+  d: P1[♣7,♠T]
+  t: ♣5/-,♥5/-
+]
+Cannot pass against ♣5: State[
+  trump: ♦
+  o: P2[♠K,♠7,♠J,♦2,♥2,♠2]
+  d: P1[♣7,♠T]
+  t: ♣5/-,♥5/-
+]
+Defending against List(♥5/-, ♣5/-): State[
+  trump: ♦
+  o: P2[♠K,♠7,♠J,♦2,♥2,♠2]
+  d: P1[♣7,♠T]
+  t: ♣5/-,♥5/-
+]
+Can't defend against ♥5/-: State[
+  trump: ♦
+  o: P2[♠K,♠7,♠J,♦2,♥2,♠2]
+  d: P1[♣7,♠T]
+  t: ♣5/-,♥5/-
+]
+Cannot reinforce because defense doesn't have more cards.
+Offense wins: State[
+  trump: ♦
+  o: P2[♠K,♠7,♠J,♦2,♥2,♠2]
+  d: P1[♣7,♠T]
+  t: ♣5/-,♥5/-
+]
+Turn ended: State[
+  trump: ♦
+  o: P2[♠K,♠7,♠J,♦2,♥2,♠2]
+  d: P1[♣7,♠T,♣5,♥5]
+  t: 
+]
+
+
+Turn 3
+Attack with ♥2: State[
+  trump: ♦
+  o: P2[♠K,♠7,♠J,♦2,♥2,♠2]
+  d: P1[♣7,♠T,♣5,♥5]
+  t: 
+] -> State[
+  trump: ♦
+  o: P2[♠K,♠7,♠J,♦2,♠2]
+  d: P1[♣7,♠T,♣5,♥5]
+  t: ♥2/-
+]
+Cannot pass against ♥2: State[
+  trump: ♦
+  o: P2[♠K,♠7,♠J,♦2,♠2]
+  d: P1[♣7,♠T,♣5,♥5]
+  t: ♥2/-
+]
+Defending against List(♥2/-): State[
+  trump: ♦
+  o: P2[♠K,♠7,♠J,♦2,♠2]
+  d: P1[♣7,♠T,♣5,♥5]
+  t: ♥2/-
+]
+Defended against ♥2/- with ♥5: State[
+  trump: ♦
+  o: P2[♠K,♠7,♠J,♦2,♠2]
+  d: P1[♣7,♠T,♣5,♥5]
+  t: ♥2/-
+] -> State[
+  trump: ♦
+  o: P2[♠K,♠7,♠J,♦2,♠2]
+  d: P1[♣7,♠T,♣5]
+  t: ♥2/♥5
+]
+Reinforcing from ArrayBuffer(♠2, ♦2) with ArrayBuffer(♠2, ♦2): State[
+  trump: ♦
+  o: P2[♠K,♠7,♠J,♦2,♠2]
+  d: P1[♣7,♠T,♣5]
+  t: ♥2/♥5
+] -> State[
+  trump: ♦
+  o: P2[♠K,♠7,♠J]
+  d: P1[♣7,♠T,♣5]
+  t: ♠2/-,♦2/-,♥2/♥5
+]
+Defending against List(♠2/-, ♦2/-): State[
+  trump: ♦
+  o: P2[♠K,♠7,♠J]
+  d: P1[♣7,♠T,♣5]
+  t: ♠2/-,♦2/-,♥2/♥5
+]
+Defended against ♠2/- with ♠T: State[
+  trump: ♦
+  o: P2[♠K,♠7,♠J]
+  d: P1[♣7,♠T,♣5]
+  t: ♠2/-,♦2/-,♥2/♥5
+] -> State[
+  trump: ♦
+  o: P2[♠K,♠7,♠J]
+  d: P1[♣7,♣5]
+  t: ♠2/♠T,♦2/-,♥2/♥5
+]
+Can't defend against ♦2/-: State[
+  trump: ♦
+  o: P2[♠K,♠7,♠J]
+  d: P1[♣7,♣5]
+  t: ♠2/♠T,♦2/-,♥2/♥5
+]
+Cannot reinforce because offense doesn't have matching cards.
+Offense wins: State[
+  trump: ♦
+  o: P2[♠K,♠7,♠J]
+  d: P1[♣7,♣5]
+  t: ♠2/♠T,♦2/-,♥2/♥5
+]
+Turn ended: State[
+  trump: ♦
+  o: P2[♠K,♠7,♠J]
+  d: P1[♣7,♣5,♠2,♠T,♦2,♥2,♥5]
+  t: 
+]
+
+
+Turn 4
+Attack with ♠7: State[
+  trump: ♦
+  o: P2[♠K,♠7,♠J]
+  d: P1[♣7,♣5,♠2,♠T,♦2,♥2,♥5]
+  t: 
+] -> State[
+  trump: ♦
+  o: P2[♠K,♠J]
+  d: P1[♣7,♣5,♠2,♠T,♦2,♥2,♥5]
+  t: ♠7/-
+]
+Passing against ♠7 with ♣7 from ArrayBuffer(♣7): State[
+  trump: ♦
+  o: P2[♠K,♠J]
+  d: P1[♣7,♣5,♠2,♠T,♦2,♥2,♥5]
+  t: ♠7/-
+] -> State[
+  trump: ♦
+  o: P1[♣5,♠2,♠T,♦2,♥2,♥5]
+  d: P2[♠K,♠J]
+  t: ♣7/-,♠7/-
+]
+Cannot pass against ♣7: State[
+  trump: ♦
+  o: P1[♣5,♠2,♠T,♦2,♥2,♥5]
+  d: P2[♠K,♠J]
+  t: ♣7/-,♠7/-
+]
+Defending against List(♣7/-, ♠7/-): State[
+  trump: ♦
+  o: P1[♣5,♠2,♠T,♦2,♥2,♥5]
+  d: P2[♠K,♠J]
+  t: ♣7/-,♠7/-
+]
+Can't defend against ♣7/-: State[
+  trump: ♦
+  o: P1[♣5,♠2,♠T,♦2,♥2,♥5]
+  d: P2[♠K,♠J]
+  t: ♣7/-,♠7/-
+]
+Cannot reinforce because defense doesn't have more cards.
+Offense wins: State[
+  trump: ♦
+  o: P1[♣5,♠2,♠T,♦2,♥2,♥5]
+  d: P2[♠K,♠J]
+  t: ♣7/-,♠7/-
+]
+Turn ended: State[
+  trump: ♦
+  o: P1[♣5,♠2,♠T,♦2,♥2,♥5]
+  d: P2[♠K,♠J,♣7,♠7]
+  t: 
+]
+
+
+Turn 5
+Attack with ♥2: State[
+  trump: ♦
+  o: P1[♣5,♠2,♠T,♦2,♥2,♥5]
+  d: P2[♠K,♠J,♣7,♠7]
+  t: 
+] -> State[
+  trump: ♦
+  o: P1[♣5,♠2,♠T,♦2,♥5]
+  d: P2[♠K,♠J,♣7,♠7]
+  t: ♥2/-
+]
+Cannot pass against ♥2: State[
+  trump: ♦
+  o: P1[♣5,♠2,♠T,♦2,♥5]
+  d: P2[♠K,♠J,♣7,♠7]
+  t: ♥2/-
+]
+Defending against List(♥2/-): State[
+  trump: ♦
+  o: P1[♣5,♠2,♠T,♦2,♥5]
+  d: P2[♠K,♠J,♣7,♠7]
+  t: ♥2/-
+]
+Can't defend against ♥2/-: State[
+  trump: ♦
+  o: P1[♣5,♠2,♠T,♦2,♥5]
+  d: P2[♠K,♠J,♣7,♠7]
+  t: ♥2/-
+]
+Reinforcing from ArrayBuffer(♠2, ♦2) with ArrayBuffer(♠2, ♦2): State[
+  trump: ♦
+  o: P1[♣5,♠2,♠T,♦2,♥5]
+  d: P2[♠K,♠J,♣7,♠7]
+  t: ♥2/-
+] -> State[
+  trump: ♦
+  o: P1[♣5,♠T,♥5]
+  d: P2[♠K,♠J,♣7,♠7]
+  t: ♠2/-,♦2/-,♥2/-
+]
+Defending against List(♥2/-, ♠2/-, ♦2/-): State[
+  trump: ♦
+  o: P1[♣5,♠T,♥5]
+  d: P2[♠K,♠J,♣7,♠7]
+  t: ♠2/-,♦2/-,♥2/-
+]
+Can't defend against ♥2/-: State[
+  trump: ♦
+  o: P1[♣5,♠T,♥5]
+  d: P2[♠K,♠J,♣7,♠7]
+  t: ♠2/-,♦2/-,♥2/-
+]
+Cannot reinforce because offense doesn't have matching cards.
+Offense wins: State[
+  trump: ♦
+  o: P1[♣5,♠T,♥5]
+  d: P2[♠K,♠J,♣7,♠7]
+  t: ♠2/-,♦2/-,♥2/-
+]
+Turn ended: State[
+  trump: ♦
+  o: P1[♣5,♠T,♥5]
+  d: P2[♠K,♠J,♣7,♠7,♠2,♦2,♥2]
+  t: 
+]
+
+
+Turn 6
+Attack with ♥5: State[
+  trump: ♦
+  o: P1[♣5,♠T,♥5]
+  d: P2[♠K,♠J,♣7,♠7,♠2,♦2,♥2]
+  t: 
+] -> State[
+  trump: ♦
+  o: P1[♣5,♠T]
+  d: P2[♠K,♠J,♣7,♠7,♠2,♦2,♥2]
+  t: ♥5/-
+]
+Cannot pass against ♥5: State[
+  trump: ♦
+  o: P1[♣5,♠T]
+  d: P2[♠K,♠J,♣7,♠7,♠2,♦2,♥2]
+  t: ♥5/-
+]
+Defending against List(♥5/-): State[
+  trump: ♦
+  o: P1[♣5,♠T]
+  d: P2[♠K,♠J,♣7,♠7,♠2,♦2,♥2]
+  t: ♥5/-
+]
+Defended against ♥5/- with ♦2: State[
+  trump: ♦
+  o: P1[♣5,♠T]
+  d: P2[♠K,♠J,♣7,♠7,♠2,♦2,♥2]
+  t: ♥5/-
+] -> State[
+  trump: ♦
+  o: P1[♣5,♠T]
+  d: P2[♠K,♠J,♣7,♠7,♠2,♥2]
+  t: ♥5/♦2
+]
+Reinforcing from ArrayBuffer(♣5) with ArrayBuffer(♣5): State[
+  trump: ♦
+  o: P1[♣5,♠T]
+  d: P2[♠K,♠J,♣7,♠7,♠2,♥2]
+  t: ♥5/♦2
+] -> State[
+  trump: ♦
+  o: P1[♠T]
+  d: P2[♠K,♠J,♣7,♠7,♠2,♥2]
+  t: ♣5/-,♥5/♦2
+]
+Defending against List(♣5/-): State[
+  trump: ♦
+  o: P1[♠T]
+  d: P2[♠K,♠J,♣7,♠7,♠2,♥2]
+  t: ♣5/-,♥5/♦2
+]
+Defended against ♣5/- with ♣7: State[
+  trump: ♦
+  o: P1[♠T]
+  d: P2[♠K,♠J,♣7,♠7,♠2,♥2]
+  t: ♣5/-,♥5/♦2
+] -> State[
+  trump: ♦
+  o: P1[♠T]
+  d: P2[♠K,♠J,♠7,♠2,♥2]
+  t: ♣5/♣7,♥5/♦2
+]
+Cannot reinforce because offense doesn't have matching cards.
+Defense wins: State[
+  trump: ♦
+  o: P1[♠T]
+  d: P2[♠K,♠J,♠7,♠2,♥2]
+  t: ♣5/♣7,♥5/♦2
+]
+Turn ended: State[
+  trump: ♦
+  o: P2[♠K,♠J,♠7,♠2,♥2]
+  d: P1[♠T]
+  t: 
+]
+
+
+Turn 7
+Attack with ♥2: State[
+  trump: ♦
+  o: P2[♠K,♠J,♠7,♠2,♥2]
+  d: P1[♠T]
+  t: 
+] -> State[
+  trump: ♦
+  o: P2[♠K,♠J,♠7,♠2]
+  d: P1[♠T]
+  t: ♥2/-
+]
+Cannot pass against ♥2: State[
+  trump: ♦
+  o: P2[♠K,♠J,♠7,♠2]
+  d: P1[♠T]
+  t: ♥2/-
+]
+Defending against List(♥2/-): State[
+  trump: ♦
+  o: P2[♠K,♠J,♠7,♠2]
+  d: P1[♠T]
+  t: ♥2/-
+]
+Can't defend against ♥2/-: State[
+  trump: ♦
+  o: P2[♠K,♠J,♠7,♠2]
+  d: P1[♠T]
+  t: ♥2/-
+]
+Cannot reinforce because defense doesn't have more cards.
+Offense wins: State[
+  trump: ♦
+  o: P2[♠K,♠J,♠7,♠2]
+  d: P1[♠T]
+  t: ♥2/-
+]
+Turn ended: State[
+  trump: ♦
+  o: P2[♠K,♠J,♠7,♠2]
+  d: P1[♠T,♥2]
+  t: 
+]
+
+
+Turn 8
+Attack with ♠2: State[
+  trump: ♦
+  o: P2[♠K,♠J,♠7,♠2]
+  d: P1[♠T,♥2]
+  t: 
+] -> State[
+  trump: ♦
+  o: P2[♠K,♠J,♠7]
+  d: P1[♠T,♥2]
+  t: ♠2/-
+]
+Passing against ♠2 with ♥2 from ArrayBuffer(♥2): State[
+  trump: ♦
+  o: P2[♠K,♠J,♠7]
+  d: P1[♠T,♥2]
+  t: ♠2/-
+] -> State[
+  trump: ♦
+  o: P1[♠T]
+  d: P2[♠K,♠J,♠7]
+  t: ♥2/-,♠2/-
+]
+Cannot pass against ♥2: State[
+  trump: ♦
+  o: P1[♠T]
+  d: P2[♠K,♠J,♠7]
+  t: ♥2/-,♠2/-
+]
+Defending against List(♥2/-, ♠2/-): State[
+  trump: ♦
+  o: P1[♠T]
+  d: P2[♠K,♠J,♠7]
+  t: ♥2/-,♠2/-
+]
+Can't defend against ♥2/-: State[
+  trump: ♦
+  o: P1[♠T]
+  d: P2[♠K,♠J,♠7]
+  t: ♥2/-,♠2/-
+]
+Cannot reinforce because offense doesn't have matching cards.
+Offense wins: State[
+  trump: ♦
+  o: P1[♠T]
+  d: P2[♠K,♠J,♠7]
+  t: ♥2/-,♠2/-
+]
+Turn ended: State[
+  trump: ♦
+  o: P1[♠T]
+  d: P2[♠K,♠J,♠7,♥2,♠2]
+  t: 
+]
+
+
+Turn 9
+Attack with ♠T: State[
+  trump: ♦
+  o: P1[♠T]
+  d: P2[♠K,♠J,♠7,♥2,♠2]
+  t: 
+] -> State[
+  trump: ♦
+  o: P1[]
+  d: P2[♠K,♠J,♠7,♥2,♠2]
+  t: ♠T/-
+]
+Cannot pass against ♠T: State[
+  trump: ♦
+  o: P1[]
+  d: P2[♠K,♠J,♠7,♥2,♠2]
+  t: ♠T/-
+]
+Defending against List(♠T/-): State[
+  trump: ♦
+  o: P1[]
+  d: P2[♠K,♠J,♠7,♥2,♠2]
+  t: ♠T/-
+]
+Defended against ♠T/- with ♠J: State[
+  trump: ♦
+  o: P1[]
+  d: P2[♠K,♠J,♠7,♥2,♠2]
+  t: ♠T/-
+] -> State[
+  trump: ♦
+  o: P1[]
+  d: P2[♠K,♠7,♥2,♠2]
+  t: ♠T/♠J
+]
+Cannot reinforce because offense doesn't have matching cards.
+Defense wins: State[
+  trump: ♦
+  o: P1[]
+  d: P2[♠K,♠7,♥2,♠2]
+  t: ♠T/♠J
+]
+Turn ended: State[
+  trump: ♦
+  o: P2[♠K,♠7,♥2,♠2]
+  d: P1[]
+  t: 
+]
+
+
+1
