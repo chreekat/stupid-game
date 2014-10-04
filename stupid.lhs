@@ -36,7 +36,8 @@ Do you mean, "This can only be done if *defense* has enough cards to defend
 all of them"?
 
 [edit] I understand now -- offense only becomes defense if his hand is
- >= # of uncovered cards.
+ >= # of uncovered cards. But what happens if he doesn't? Oh, he gets to
+stay offense?
 
 /*
  * 3) Whenever there is no card to be passed,
@@ -116,8 +117,11 @@ state, and pass it to the game runner. Finally, there's the various
 interpreters for the game logic program.
 
 > import System.Environment (getArgs)
+> import Control.Applicative ((<$>))
 > import Control.Monad ((<=<))
+> import Control.Monad.Free
 > import qualified Data.Text.IO as T
+> import Data.Maybe
 
 > import Types
 > import ParseInput
@@ -138,7 +142,7 @@ list of input states, and then process each input state.
 >     mapM_ runProg (parseInput input)
 
 > runProg :: GameState -> IO ()
-> runProg = putStrLn . show
+> runProg = flip interp attackStage
 
 Great, now we can build our game state.
 
@@ -149,3 +153,57 @@ Now a little parser for the data file.
 (See ParseInput.hs)
 
 Now to define the game actions.
+
+Brainstorm:
+
+> data Role = Offense | Defense deriving (Show)
+
+> attackStage = do
+>     x <- fromJust <$> smallestCard Offense
+>     playCard Offense x
+>     passStage
+
+passStage = do
+    r <- attackRank
+    nOff <- handSize Offense
+    nTable <- tableSize
+    card <- fromJust <$> smallesteCard Defense
+    if defenseHasRank r && nOff > nTable
+        then do
+            playCard Defense card
+            swapRoles
+            passStage
+        else defendStage
+
+Question: what type is attackStage, or (smallestCard offense)? (Free
+GameAction a), I suppose. GameAction is
+
+> data GameAction nxt
+>     = SmallestCard Role (Maybe Card -> nxt)
+>     | PlayCard Role Card nxt
+>     deriving (Functor)
+>
+
+This is still magic to me... need to understand it.
+
+> smallestCard :: Role -> Free GameAction (Maybe Card)
+> smallestCard role = liftF $ SmallestCard role id
+>
+> playCard :: Role -> Card -> Free GameAction ()
+> playCard role card = liftF $ PlayCard role card ()
+
+> passStage = Pure ()
+
+This is also still slightly magical.
+
+> interp :: GameState -> Free GameAction r -> IO ()
+> interp start act = case act of
+>     (Free (SmallestCard role f)) -> do
+>         let acc = case role of Offense -> offense
+>                                Defense -> defense
+>         interp start (f (Just $ Card Heart R3))
+>     (Free (PlayCard role card f)) -> do
+>         putStrLn $ show role ++ " plays " ++ show card
+>         putStrLn $ show start
+>         interp start f
+>     Pure _ -> putStrLn "Pured out"
