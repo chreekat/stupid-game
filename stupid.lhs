@@ -186,6 +186,13 @@ GameAction a), I suppose. GameAction is
 
 This is still magic to me... need to understand it.
 
+[edit] I get it: liftF creates a new link in the chain with Free (the data
+constructor). What I don't quite understand is how 'id' and () are used in
+defining the GameAction value.
+
+Ah, it is in the Functor instance. It's just the plumbing that lets the
+next action get hooked up.
+
 > smallestCard :: Role -> Free GameAction (Maybe Card)
 > smallestCard role = liftF $ SmallestCard role id
 >
@@ -207,3 +214,19 @@ This is also still slightly magical.
 >         putStrLn $ show start
 >         interp start f
 >     Pure _ -> putStrLn "Pured out"
+
+That works, but now I want to interleave some State effects with the
+underlying functor. How?
+
+FreeT, presumably. My DSL, the list of functions that create values of type
+Free ..., should perhaps be of type FreeT and they can lift actions from a
+transformed monad. Yeah. The interpreter will still walk the line of Free
+objects and drop in its own actions.
+
+But won't that sequence in steps for the interpreter to handle? Oh my god,
+no, because Pure values are ignored! How? Right, the monad definition:
+Pure r >>= f = f r. Instead of pushing an action on the list, like (Free r
+ >>=) does, it just runs the next action. The interpreter never sees it.
+
+But because they are ignored, you can make a MonadTrans instance where
+'lift' wraps the underlying action in a Pure. Bam.
