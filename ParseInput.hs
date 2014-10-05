@@ -6,6 +6,9 @@ import Control.Applicative ((<*), (<*>), (<$>), many)
 import Data.Maybe (fromJust)
 import Data.Text (Text)
 import qualified Data.Text as T
+-- Since this is only an exercise in Free/FreeT, I am punting on doing the
+-- right thing and tokenizing the input. attoparsec for the (quick-n-dirty)
+-- win.
 import Data.Attoparsec.Text
 
 import Types
