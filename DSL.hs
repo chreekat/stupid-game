@@ -9,15 +9,14 @@ import Control.Monad.State
 import Control.Monad.Trans.Free
 
 import Types
-
-data Role = Offense | Defense deriving (Show)
+import GameState as GS
 
 data GameAction nxt
     = SmallestCard Role (Maybe Card) (Maybe Card -> nxt)
     | PlayCard Role Card nxt
     deriving (Functor)
 
-type GameDSL = FreeT GameAction (State GameData)
+type GameDSL = FreeT GameAction GameState
 
 smallestCard :: Role -> GameDSL (Maybe Card)
 smallestCard role = do
@@ -25,34 +24,9 @@ smallestCard role = do
     let c = headMay hand
     liftF $ SmallestCard role c id
 
-getHand :: Role -> State GameData [Card]
-getHand role = do
-    p <- case role of
-        Offense -> gets offense
-        Defense -> gets defense
-    return $ hand p
-
--- Yeah, time to learn how to use lens
-updateHand :: Role -> ([Card] -> [Card]) -> State GameData ()
-updateHand role tweak = do
-    st <- get
-    let p = case role of
-                Offense -> offense st
-                Defense -> defense st
-        hd = tweak $ hand p
-    case role of
-        Offense -> put st { offense = (p { hand = hd }) }
-        Defense -> put st { defense = (p { hand = hd }) }
-
-playCard' :: Card -> State GameData ()
-playCard' card = do
-    st <- get
-    let t = PC card Nothing : (table st)
-    put st { table = t }
-
 playCard :: Role -> Card -> GameDSL ()
 playCard role card = do
     hand <- lift $ getHand role
     lift $ updateHand role (delete card)
-    lift $ playCard' card
+    lift $ GS.playCard card
     liftF $ PlayCard role card ()

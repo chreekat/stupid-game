@@ -28,6 +28,12 @@ data Suit = Heart | Diamond | Club | Spade
 data Rank = R1 | R2 | R3 | R4 | R5 | R6 | R7 | R8 | R9 | RT | RJ | RQ | RK | RA
     deriving (Bounded, Enum, Eq)
 
+data Role = Offense | Defense deriving (Show)
+
+--
+-- Instances
+--
+
 instance Show Player where
     show p = "P" ++ (show $ pid p) ++ ":" ++ show (hand p)
 
