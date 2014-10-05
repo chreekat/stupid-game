@@ -53,4 +53,7 @@ interpT st act =
             putStrLn $ show role ++ " plays " ++ show card
             putStrLn $ show st'
             interpT st' f
+        (FT.Free (AttackRank card f)) -> do
+            putStrLn $ "Attack rank is " ++ show card
+            interpT st' (f card)
         FT.Pure _ -> return ()
