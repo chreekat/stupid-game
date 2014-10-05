@@ -119,7 +119,10 @@ interpreters for the game logic program.
 > import System.Environment (getArgs)
 > import Control.Applicative ((<$>))
 > import Control.Monad ((<=<))
+> import Control.Monad.State
 > import Control.Monad.Free
+> import Control.Monad.Trans.Free (FreeT(..))
+> import qualified Control.Monad.Trans.Free as FT
 > import qualified Data.Text.IO as T
 > import Data.Maybe
 
@@ -230,3 +233,22 @@ Pure r >>= f = f r. Instead of pushing an action on the list, like (Free r
 
 But because they are ignored, you can make a MonadTrans instance where
 'lift' wraps the underlying action in a Pure. Bam.
+
+So, FreeT is unwrapped to the underlying monad, which must also be run.
+
+Naturally, this means the interpreter must also thread one action's state
+to the next.
+
+> interpT :: GameState -> FreeT GameAction (State GameState) r -> IO ()
+> interpT st act =
+>     let (act', st') = runState (runFreeT act) st
+>     in case act' of
+>         (FT.Free (SmallestCard role f)) -> do
+>             let acc = case role of Offense -> offense
+>                                    Defense -> defense
+>             interpT st' (f (Just $ Card Heart R3))
+>         (FT.Free (PlayCard role card f)) -> do
+>             putStrLn $ show role ++ " plays " ++ show card
+>             putStrLn $ show st'
+>             interpT st' f
+>         FT.Pure _ -> putStrLn "Pured out"
