@@ -10,7 +10,7 @@ import Data.Attoparsec.Text
 
 import Types
 
-parseInput :: Text -> [GameState]
+parseInput :: Text -> [GameData]
 parseInput t = case parseOnly parseFile t of
     Right r -> r
     _ -> error "Parse failure. Not my problem."
@@ -18,11 +18,11 @@ parseInput t = case parseOnly parseFile t of
 parseFile = do
     trump <- parseTrump
     handPairs <- many1 parseHandPair
-    return $ map (gameState trump) handPairs
+    return $ map (gameData trump) handPairs
 
   where
 
-    gameState trump (h1, h2) = GS trump (P h1 1) (P h2 2) []
+    gameData trump (h1, h2) = GD trump (P h1 1) (P h2 2) []
 
 -- "The trump suite is represented as the first line in data file by a
 -- letter: H|D|C|S."

@@ -1,6 +1,6 @@
 module Types where
 
-data GameState = GS {
+data GameData = GD {
     trump :: Suit,
     offense :: Player,
     defense :: Player,

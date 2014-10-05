@@ -144,7 +144,7 @@ list of input states, and then process each input state.
 >     input <- T.readFile inFile
 >     mapM_ runProg (parseInput input)
 
-> runProg :: GameState -> IO ()
+> runProg :: GameData -> IO ()
 > runProg = flip interp attackStage
 
 Great, now we can build our game state.
@@ -206,7 +206,7 @@ next action get hooked up.
 
 This is also still slightly magical.
 
-> interp :: GameState -> Free GameAction r -> IO ()
+> interp :: GameData -> Free GameAction r -> IO ()
 > interp start act = case act of
 >     (Free (SmallestCard role f)) -> do
 >         let acc = case role of Offense -> offense
@@ -239,7 +239,7 @@ So, FreeT is unwrapped to the underlying monad, which must also be run.
 Naturally, this means the interpreter must also thread one action's state
 to the next.
 
-> interpT :: GameState -> FreeT GameAction (State GameState) r -> IO ()
+> interpT :: GameData -> FreeT GameAction (State GameData) r -> IO ()
 > interpT st act =
 >     let (act', st') = runState (runFreeT act) st
 >     in case act' of
