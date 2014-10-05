@@ -2,7 +2,7 @@
 
 module DSL where
 
-import Data.List (delete)
+import Data.List (delete, partition)
 import Control.Error
 import Control.Exception
 import Control.Monad.State
@@ -21,8 +21,17 @@ type GameDSL = FreeT GameAction GameState
 smallestCard :: Role -> GameDSL (Maybe Card)
 smallestCard role = do
     hand <- lift $ getHand role
-    let c = headMay hand
+    t <- lift $ gets trump
+    let c = minCard hand t
     liftF $ SmallestCard role c id
+
+  where
+
+    minCard cards t =
+        let (trumpCards, rest) = partition (\(Card s _) -> s == t) cards
+        in case rest of
+            [] -> minimumMay trumpCards
+            _  -> minimumMay rest
 
 playCard :: Role -> Card -> GameDSL ()
 playCard role card = do

@@ -23,10 +23,10 @@ data Card = Card Suit Rank
     deriving (Eq)
 
 data Suit = Heart | Diamond | Club | Spade
-    deriving (Bounded, Enum, Eq)
+    deriving (Bounded, Enum, Eq, Ord)
 
 data Rank = R1 | R2 | R3 | R4 | R5 | R6 | R7 | R8 | R9 | RT | RJ | RQ | RK | RA
-    deriving (Bounded, Enum, Eq)
+    deriving (Bounded, Enum, Eq, Ord)
 
 data Role = Offense | Defense deriving (Show)
 
@@ -55,3 +55,10 @@ instance Show PlayedCard where
     show (PC ca co) = case co of
         Just co' -> show ca ++ "/" ++ show co'
         Nothing  -> show ca ++ "/-"
+
+-- "Cards are ordered by their rank and then their suite."
+instance Ord Card where
+    compare (Card s1 r1) (Card s2 r2) =
+        case (compare r1 r2) of
+            EQ -> compare s1 s2
+            x  -> x
