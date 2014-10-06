@@ -12,6 +12,7 @@ import Data.Maybe
 import Types
 import ParseInput
 import DSL
+import Interpreters
 
 main = do
     inFile <- fmap head getArgs
@@ -39,19 +40,3 @@ passStage = do
         _ -> defendStage
 
 defendStage = return $ Pure ()
-
-interpT :: GameData -> GameDSL r -> IO ()
-interpT st act =
-    let (act', st') = runState (runFreeT act) st
-    in case act' of
-        (FT.Free (SmallestCard role card f)) -> do
-            putStrLn $ show role ++ "'s smallest card is " ++ show card
-            interpT st' (f card)
-        (FT.Free (PlayCard role card f)) -> do
-            putStrLn $ show role ++ " plays " ++ show card
-            putStrLn $ show st'
-            interpT st' f
-        (FT.Free (AttackRank card f)) -> do
-            putStrLn $ "Attack rank is " ++ show card
-            interpT st' (f card)
-        FT.Pure _ -> return ()
