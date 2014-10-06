@@ -2,7 +2,8 @@
 
 module DSL where
 
-import Data.List (delete, partition)
+import Data.List (delete, partition, find)
+import Control.Applicative ((<$>))
 import Control.Error
 import qualified Control.Exception as Ex (assert)
 import Control.Monad.State
@@ -52,3 +53,21 @@ attackRank = do
     assert $ (0 < length t)
     let c = (\(Card _ r) -> r) . card . head $ t
     liftF $ AttackRank c id
+
+swapRoles :: GameDSL ()
+swapRoles = do
+    dat <- lift get
+    let o = offense dat
+        d = defense dat
+    lift $ put dat { offense = d, defense = o }
+
+cardsRanked :: Rank -> Role -> GameDSL [Card]
+cardsRanked r role = do
+    hand <- lift $ getHand role
+    return $ filter (\(Card s r') -> (r' == r)) hand
+
+handSize :: Role -> GameDSL Int
+handSize role = length <$> lift (getHand role)
+
+tableSize :: GameDSL Int
+tableSize = length <$> lift (gets table)
