@@ -12,6 +12,7 @@ import Data.Maybe
 import Types
 import ParseInput
 import DSL
+import CardFuncs
 import Interpreters
 
 main = do
@@ -29,9 +30,10 @@ attackStage = do
     passStage rank
 
 passStage rank = do
+    t <- getTrump
     nOff <- handSize Offense
     nTable <- tableSize
-    card <- minimumMay <$> (cardsRanked rank Defense)
+    card <- minCard t <$> (cardsRanked rank Defense)
     case (compare nOff nTable, card) of
         -- offense has enough cards && defense has one to play
         (GT, Just card') -> do
@@ -42,16 +44,25 @@ passStage rank = do
         _ -> defendStage
 
 defendStage = do
+    t <- getTrump
     hand <- getHand Defense
-    mTarget <- minimumMay <$> uncoveredCards
+    mTarget <- minPlayedCard t <$> uncoveredCards
     mVolunteer <- runMaybeT $ do
         target <- hoistMaybe mTarget
-        headMay <$> volunteers target
+        volunteer (card target)
 
     case (mTarget, mVolunteer) of
         (Just tar, Just vol) -> defend tar vol
         -- No card OR the card could not be defended against
         _                   -> reinforceStage
+
+volunteer :: Card -> MaybeT GameDSL Card
+volunteer card@(Card _ rank) = MaybeT $ do
+    t <- getTrump
+    draftees <- filter (> card) <$> cardsRanked rank Defense
+    case draftees of
+        [] -> headMay <$> cardsRanked t Defense
+        _  -> return $ Just $ head draftees
 
 reinforceStage = do
     nUnc <- length <$> uncoveredCards
@@ -63,6 +74,10 @@ reinforceStage = do
         _  -> do
             reinforceWith reinforcements
             defendStage
+
+possibleReinforcements = do
+    suits <- (map (\(Card s _) -> s)) <$> playedCards
+    filter ((`elem` suits) . \(Card s _) -> s) <$> getHand Offense
 
 verdictStage numUncovered = do
     case numUncovered of

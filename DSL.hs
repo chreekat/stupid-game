@@ -2,7 +2,7 @@
 
 module DSL where
 
-import Control.Monad.Trans.Free (FreeT(..), liftF)
+import Control.Monad.Trans.Free
 
 import Types
 import GameState as GS
@@ -17,14 +17,14 @@ type GameDSL = FreeT GameAction GameState
 
 cardsRanked :: Rank -> Role -> GameDSL [Card]
 cardsRanked = undefined
-volunteers = undefined
 getHand :: Role -> GameDSL [Card]
 getHand = undefined
+getTrump = undefined
 handSize :: Role -> GameDSL Int
 handSize = undefined
 playCard = undefined
-possibleReinforcements = undefined
 reinforceWith = undefined
+playedCards = undefined
 smallestCard = undefined
 swapRoles = undefined
 tableSize :: GameDSL Int
