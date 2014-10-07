@@ -69,8 +69,9 @@ volunteer card@(Card suit _) = MaybeT $ do
     hand <- getHand Defense
     let draftees = filter (> card) $ cardsSuited suit hand
     case draftees of
-        [] -> headMay <$> trumpCards Defense
-        _  -> return $ Just $ head draftees
+        [] | suit == t -> return Nothing
+           | otherwise -> headMay <$> trumpCards Defense
+        _  -> return $ minCard t $ draftees
 
   where cardsSuited s = filter ((s ==) . cSuit)
 
