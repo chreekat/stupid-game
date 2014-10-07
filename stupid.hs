@@ -19,7 +19,7 @@ main = do
     inFile <- fmap head getArgs
     input <- T.readFile inFile
     mapM_ runProg (parseInput input)
-    putStrLn ""
+    putStr "\r\n"
 
 runProg :: GameData -> IO ()
 runProg = flip quietInterp attackStage
@@ -67,13 +67,16 @@ volunteer :: Card -> MaybeT GameDSL Card
 volunteer card@(Card suit _) = MaybeT $ do
     t <- getTrump
     hand <- getHand Defense
-    let draftees = filter (> card) $ cardsSuited suit hand
-    case draftees of
-        [] | suit == t -> return Nothing
-           | otherwise -> headMay <$> trumpCards Defense
-        _  -> return $ minCard t $ draftees
+    let sameSuit = filter (> card) $ cardsSuited suit hand
+        trumps   = if suit /= t
+                   then cardsSuited t hand
+                   else [] -- trumps already exist in sameSuit
+        volunteers = sameSuit ++ trumps
+    return $ minCard t volunteers
 
-  where cardsSuited s = filter ((s ==) . cSuit)
+  where
+
+    cardsSuited s = filter ((s ==) . cSuit)
 
 reinforceStage = do
     nUnc <- length <$> uncoveredCards
