@@ -1,4 +1,4 @@
-(To run the code, look at [test.sh])
+(To run the code, look at [test.sh](test.sh))
 
 stupid-game
 ===========
@@ -18,7 +18,7 @@ Introduction: Types
 -------------------
 
 Let's start by defining the types relevant to a game of 'stupid'. For that
-we have [Types.hs], with definitions like
+we have [Types.hs](Types.hs), with definitions like
 
 ```haskell
 data Suit = Heart | Diamond | Club | Spade
@@ -49,9 +49,9 @@ runProg = flip quietInterp attackStage
 Parsing
 -------
 
-The first part of this challenge is parsing the data out of [data.txt]. For
+The first part of this challenge is parsing the data out of [data.txt](data.txt). For
 that task I used the attoparsec library. The parsers are found in
-[ParseInput.hs]. They're outside the scope of this document, but here is
+[ParseInput.hs](ParseInput.hs). They're outside the scope of this document, but here is
 one example:
 
 
@@ -69,7 +69,7 @@ in this example.
 Game Logic
 ----------
 
-The majority of [stupid.hs] defines the logic for playing 'stupid'. The
+The majority of [stupid.hs](stupid.hs) defines the logic for playing 'stupid'. The
 individual stages are broken into distinct definitions. Each one is written
 as a meta-program using "keywords" from a domain-specific language (DSL),
 developed below. Here's one example:
@@ -104,9 +104,9 @@ meta-program's interpreter.
 DSL
 ---
 
-The DSL is defined in [DSL.hs]. Naturally.
+The DSL is defined in [DSL.hs](DSL.hs). Naturally.
 
-While the code in [stupid.hs] defines how to play 'stupid', this code
+While the code in [stupid.hs](stupid.hs) defines how to play 'stupid', this code
 defines what actually happens to the state of the game during each player
 action. Here's an example. Glaze your eyes a bit until I've explained a few
 more things.
@@ -124,7 +124,7 @@ winTurn role = do
 
 Now, hold on to your butts, because I want to point out that this
 'stupid' DSL is actually implemented in terms of *another* DSL that
-manipulates game state. That lower-level DSL is found in [GameState.hs].
+manipulates game state. That lower-level DSL is found in [GameState.hs](GameState.hs).
 You can see it used above; for instance, `GS.clearTable`, which has this
 definition:
 
@@ -136,7 +136,7 @@ clearTable = do
 ```
 
 Confusingly, besides describing the *what* of 'stupid', the code in
-[DSL.hs] also defines a generic interface to the outside world. The
+[DSL.hs](DSL.hs) also defines a generic interface to the outside world. The
 interface is summarized in the `GameAction` type:
 
 ```haskell
@@ -160,7 +160,7 @@ Once the meta-program describing the game is fully written, it must be
 interpreted to generate output. This is where `GameAction` and the Free
 Monad come in to play. By using the Free machinery, intepreters are simply
 written as a function keyed on `GameAction` values. Two interpreters exist in
-[Interpreters.hs]: one that is noisy and one that is quiet. This is where
+[Interpreters.hs](Interpreters.hs): one that is noisy and one that is quiet. This is where
 the second mystery keyword from `main` is defined: `quietInterp` is the
 quiet interpreter. :)
 
