@@ -19,13 +19,11 @@ data GameAction nxt
     | PassWith Card nxt
     | Defend PlayedCard Card nxt
     | ReinforceWith [Card] nxt
+    | WinTurn Role nxt
+    | Result Int nxt
     deriving (Functor)
 
 type GameDSL = FreeT GameAction GameState
-
-tieGame = undefined
-winner = undefined
-winTurn = undefined
 
 -- | assertions for the DSL programmer
 assert test = return $ Ex.assert test $ Pure ()
@@ -57,11 +55,6 @@ trumpCards role = do
 tableSize :: GameDSL Int
 tableSize = length <$> lift (gets table)
 
-cardsRanked :: Rank -> Role -> GameDSL [Card]
-cardsRanked r role = do
-    hand <- getHand role
-    return $ filter ((r ==) . cRank) hand
-
 passWith card = do
     playCard Defense card
     swapRoles
@@ -77,7 +70,10 @@ swapRoles = do
 defend :: PlayedCard -> Card -> GameDSL ()
 defend pc c = do
     table <- getTable
+    hand <- getHand Defense
     assert (pc `elem` table)
+    assert (c `elem` hand)
+    lift $ GS.updateHand Defense (delete c)
     lift $ GS.coverCard pc c
     liftF $ Defend pc c ()
 
@@ -96,3 +92,23 @@ reinforceWith :: [Card] -> GameDSL ()
 reinforceWith cs = do
     mapM_ (playCard Offense) cs
     liftF $ ReinforceWith cs ()
+
+winTurn role = do
+    case role of
+        Offense -> do
+            allCards <- playedCards
+            lift $ GS.updateHand Defense (++ allCards)
+        Defense -> swapRoles
+    lift $ GS.clearTable
+    liftF $ WinTurn role ()
+
+tieGame :: GameDSL ()
+tieGame = liftF $ Result 0 ()
+
+winner :: Role -> GameDSL ()
+winner role = do
+    n <- playerNum role
+    liftF $ Result n ()
+
+playerNum :: Role -> GameDSL Int
+playerNum r = lift $ GS.playerNum r

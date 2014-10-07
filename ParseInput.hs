@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module ParseInput (parseInput) where
+module ParseInput where
 
 import Control.Applicative ((<*), (<*>), (<$>), many)
 import Data.Maybe (fromJust)
@@ -14,13 +14,15 @@ import Data.Attoparsec.Text
 import Types
 
 parseInput :: Text -> [GameData]
-parseInput t = case parseOnly parseFile t of
-    Right r -> r
-    _ -> error "Parse failure. Not my problem."
+parseInput t = case parse parseFile t of
+    Done _ r -> r
+    Partial f -> case f "" of
+        Done _ r -> r
+        _ -> error "Parse failure. Not my problem."
 
 parseFile = do
     trump <- parseTrump
-    handPairs <- many1 parseHandPair
+    handPairs <- sepBy parseHandPair endOfLine
     return $ map (gameData trump) handPairs
 
   where
@@ -35,7 +37,7 @@ parseTrump = parseSuit <* endOfLine
 -- file: ST D2 CJ HQ DA | H2 D3 C4 S5 H6 D7 C8 S9"
 parseHandPair = (,)
     <$> sepBy parseCard " " <* parseSep
-    <*> sepBy parseCard " " <* endOfLine
+    <*> sepBy parseCard " "
 
 parseSep = " | "
 
@@ -45,7 +47,7 @@ parseSuit :: Parser Suit
 parseSuit = magicParse "HDCS"
 
 parseRank :: Parser Rank
-parseRank =  magicParse "123456789TJKQA"
+parseRank =  magicParse "123456789TJQKA"
 
 -- | Magically parses a value of type 'b' that has Enum and Bounded
 -- instances from a single character that represents that value (listed as a

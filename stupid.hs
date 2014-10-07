@@ -33,7 +33,7 @@ passStage rank = do
     t <- getTrump
     nOff <- length <$> getHand Offense
     nTable <- tableSize
-    card <- minCard t <$> (cardsRanked rank Defense)
+    card <- (minCard t . cardsRanked rank) <$> getHand Defense
     case (compare nOff nTable, card) of
         -- offense has enough cards && defense has one to play
         (GT, Just card') -> do
@@ -41,6 +41,10 @@ passStage rank = do
             passStage rank
         -- else...
         _ -> defendStage
+
+  where
+
+    cardsRanked r = filter ((r ==) . cRank)
 
 defendStage = do
     t <- getTrump
@@ -59,12 +63,15 @@ uncoveredCards :: GameDSL [PlayedCard]
 uncoveredCards = filter ((== Nothing) . cover) <$> getTable
 
 volunteer :: Card -> MaybeT GameDSL Card
-volunteer card@(Card _ rank) = MaybeT $ do
+volunteer card@(Card suit _) = MaybeT $ do
     t <- getTrump
-    draftees <- filter (> card) <$> cardsRanked rank Defense
+    hand <- getHand Defense
+    let draftees = filter (> card) $ cardsSuited suit hand
     case draftees of
         [] -> headMay <$> trumpCards Defense
         _  -> return $ Just $ head draftees
+
+  where cardsSuited s = filter ((s ==) . cSuit)
 
 reinforceStage = do
     nUnc <- length <$> uncoveredCards

@@ -1,5 +1,6 @@
 module GameState where
 
+import Control.Applicative ((<$>))
 import Control.Monad.State
 
 import Types
@@ -42,7 +43,7 @@ coverCard pc c = do
     st <- get
     table <- gets table
     let table' = map cover' table
-    put st { table = table }
+    put st { table = table' }
 
   where
 
@@ -50,4 +51,12 @@ coverCard pc c = do
         then x { cover = Just c }
         else x
 
+clearTable :: GameState ()
+clearTable = do
+  st <- get
+  put st { table = [] }
+
+playerNum r = case r of
+    Offense -> (pid . offense) <$> get
+    Defense -> (pid . defense) <$> get
 
