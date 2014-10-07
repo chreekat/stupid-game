@@ -19,9 +19,10 @@ main = do
     inFile <- fmap head getArgs
     input <- T.readFile inFile
     mapM_ runProg (parseInput input)
+    putStrLn ""
 
 runProg :: GameData -> IO ()
-runProg = flip interpT attackStage
+runProg = flip quietInterp attackStage
 
 attackStage = do
     t <- getTrump
