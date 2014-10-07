@@ -24,21 +24,20 @@ runProg :: GameData -> IO ()
 runProg = flip interpT attackStage
 
 attackStage = do
-    hand <- getHand Offense
-    c@(Card _ rank) <- fromJust <$> smallestCard hand
-    playCard Offense c
+    t <- getTrump
+    c@(Card _ rank) <- fromJust . (minCard t) <$> getHand Offense
+    attackWith c
     passStage rank
 
 passStage rank = do
     t <- getTrump
-    nOff <- handSize Offense
+    nOff <- length <$> getHand Offense
     nTable <- tableSize
     card <- minCard t <$> (cardsRanked rank Defense)
     case (compare nOff nTable, card) of
         -- offense has enough cards && defense has one to play
         (GT, Just card') -> do
-            playCard Defense card'
-            swapRoles
+            passWith card'
             passStage rank
         -- else...
         _ -> defendStage

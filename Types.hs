@@ -20,7 +20,10 @@ data PlayedCard = PC {
 }
     deriving (Eq, Ord)
 
-data Card = Card Suit Rank
+data Card = Card {
+    cSuit :: Suit,
+    cRank :: Rank
+}
     deriving (Eq)
 
 data Suit = Heart | Diamond | Club | Spade
