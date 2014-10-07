@@ -51,16 +51,19 @@ defendStage = do
         volunteer (card target)
 
     case (mTarget, mVolunteer) of
-        (Just tar, Just vol) -> defend tar vol
+        (Just tar, Just vol) -> defend tar vol >> defendStage
         -- No card OR the card could not be defended against
-        _                   -> reinforceStage
+        _                    -> reinforceStage
+
+uncoveredCards :: GameDSL [PlayedCard]
+uncoveredCards = filter ((== Nothing) . cover) <$> getTable
 
 volunteer :: Card -> MaybeT GameDSL Card
 volunteer card@(Card _ rank) = MaybeT $ do
     t <- getTrump
     draftees <- filter (> card) <$> cardsRanked rank Defense
     case draftees of
-        [] -> headMay <$> cardsRanked t Defense
+        [] -> headMay <$> trumpCards Defense
         _  -> return $ Just $ head draftees
 
 reinforceStage = do
@@ -75,8 +78,8 @@ reinforceStage = do
             defendStage
 
 possibleReinforcements = do
-    suits <- (map (\(Card s _) -> s)) <$> playedCards
-    filter ((`elem` suits) . \(Card s _) -> s) <$> getHand Offense
+    suits <- map cSuit <$> playedCards
+    filter ((`elem` suits) . cSuit) <$> getHand Offense
 
 verdictStage numUncovered = do
     case numUncovered of

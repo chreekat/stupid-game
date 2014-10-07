@@ -17,6 +17,7 @@ import CardFuncs
 data GameAction nxt
     = AttackWith Card nxt
     | PassWith Card nxt
+    | Defend PlayedCard Card nxt
     deriving (Functor)
 
 type GameDSL = FreeT GameAction GameState
@@ -24,11 +25,8 @@ type GameDSL = FreeT GameAction GameState
 reinforceWith = undefined
 playedCards = undefined
 tieGame = undefined
-uncoveredCards :: GameDSL [PlayedCard]
-uncoveredCards = undefined
 winner = undefined
 winTurn = undefined
-defend = undefined
 
 -- | assertions for the DSL programmer
 assert test = return $ Ex.assert test $ Pure ()
@@ -49,6 +47,9 @@ getHand = lift . GS.getHand
 
 getTrump :: GameDSL Suit
 getTrump = lift GS.getTrump
+
+getTable :: GameDSL [PlayedCard]
+getTable = lift GS.getTable
 
 trumpCards role = do
     t <- getTrump
@@ -74,3 +75,10 @@ swapRoles = do
     let o = offense dat
         d = defense dat
     lift $ put dat { offense = d, defense = o }
+
+defend :: PlayedCard -> Card -> GameDSL ()
+defend pc c = do
+    table <- getTable
+    assert (pc `elem` table)
+    lift $ GS.coverCard pc c
+    liftF $ Defend pc c ()
