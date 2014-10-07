@@ -23,39 +23,35 @@ runProg :: GameData -> IO ()
 runProg = flip interpT attackStage
 
 attackStage = do
-    x <- fromJust <$> smallestCard Offense
-    playCard Offense x
-    passStage
+    hand <- getHand Offense
+    c@(Card _ rank) <- fromJust <$> smallestCard hand
+    playCard Offense c
+    passStage rank
 
-passStage = do
+passStage rank = do
     nOff <- handSize Offense
     nTable <- tableSize
-    r <- attackRank
-    card <- minimumMay <$> (cardsRanked r Defense)
+    card <- minimumMay <$> (cardsRanked rank Defense)
     case (compare nOff nTable, card) of
         -- offense has enough cards && defense has one to play
-        (GT, Just card'@(Card s r')) -> do
+        (GT, Just card') -> do
             playCard Defense card'
             swapRoles
-            passStage
+            passStage rank
         -- else...
         _ -> defendStage
 
 defendStage = do
+    hand <- getHand Defense
     mTarget <- minimumMay <$> uncoveredCards
-    success <- coverCard' mTarget
-    case (mTarget, success) of
-        -- There was a card, it was defended
-        (Just _, Just True) -> defendStage
+    mVolunteer <- runMaybeT $ do
+        target <- hoistMaybe mTarget
+        headMay <$> volunteers target
+
+    case (mTarget, mVolunteer) of
+        (Just tar, Just vol) -> defend tar vol
         -- No card OR the card could not be defended against
         _                   -> reinforceStage
-
-  where
-
-    coverCard' :: Maybe Card -> GameDSL (Maybe Bool)
-    coverCard' mTarget = case mTarget of
-        Just target -> Just <$> coverCard target
-        Nothing     -> return $ Nothing
 
 reinforceStage = do
     nUnc <- length <$> uncoveredCards

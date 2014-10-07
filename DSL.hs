@@ -15,10 +15,12 @@ data GameAction nxt
 
 type GameDSL = FreeT GameAction GameState
 
-attackRank = undefined
+cardsRanked :: Rank -> Role -> GameDSL [Card]
 cardsRanked = undefined
-coverCard = undefined
+volunteers = undefined
+getHand :: Role -> GameDSL [Card]
 getHand = undefined
+handSize :: Role -> GameDSL Int
 handSize = undefined
 playCard = undefined
 possibleReinforcements = undefined
@@ -28,6 +30,8 @@ swapRoles = undefined
 tableSize :: GameDSL Int
 tableSize = undefined
 tieGame = undefined
+uncoveredCards :: GameDSL [PlayedCard]
 uncoveredCards = undefined
 winner = undefined
 winTurn = undefined
+defend = undefined
