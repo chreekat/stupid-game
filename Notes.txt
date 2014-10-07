@@ -65,7 +65,13 @@ possible, whether or not he can cover all of them?
  * 4) Attacker then can add more cards that are of the same rank that
  * currently exist on the table for defender to current. Maximum number of
  * non-covered cards on the table cannot exceed defenders current hand size.
- * If such scenario arises, attacker then plays the smallest card from their
+ * If such scenario arises, 
+*/
+
+What scenario?
+
+/*
+ * attacker then plays the smallest card from their
  * hand.
  */
 
@@ -227,3 +233,8 @@ to the next.
 >             putStrLn $ show st'
 >             interpT st' f
 >         FT.Pure _ -> return ()
+
+(Much later)
+
+I had a bug and was able to find it by switching to the debugInterpreter in
+ghci... easy!

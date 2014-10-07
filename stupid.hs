@@ -1,13 +1,8 @@
 import System.Environment (getArgs)
 import Control.Applicative ((<$>), (<*>))
 import Control.Error
-import Control.Monad ((<=<))
-import Control.Monad.Free
-import Control.Monad.Trans.Free (FreeT(..))
-import Control.Monad.State
-import qualified Control.Monad.Trans.Free as FT
 import qualified Data.Text.IO as T
-import Data.Maybe
+import Data.Maybe (fromJust)
 
 import Types
 import ParseInput
@@ -56,9 +51,10 @@ defendStage = do
         volunteer (card target)
 
     case (mTarget, mVolunteer) of
-        (Just tar, Just vol) -> defend tar vol >> defendStage
-        -- No card OR the card could not be defended against
-        _                    -> reinforceStage
+        (Just tar, Just vol) -> do
+            defend tar vol
+            defendStage
+        _  -> reinforceStage
 
 uncoveredCards :: GameDSL [PlayedCard]
 uncoveredCards = filter ((== Nothing) . cover) <$> getTable
@@ -89,9 +85,11 @@ reinforceStage = do
             reinforceWith reinforcements
             defendStage
 
-possibleReinforcements = do
-    ranks <- map cRank <$> playedCards
-    filter ((`elem` ranks) . cRank) <$> getHand Offense
+  where
+
+    possibleReinforcements = do
+        ranks <- map cRank <$> playedCards
+        filter ((`elem` ranks) . cRank) <$> getHand Offense
 
 verdictStage numUncovered = do
     case numUncovered of

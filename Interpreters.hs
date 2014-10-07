@@ -12,6 +12,7 @@ debugInterp st act =
     in case act' of
         (FT.Free (AttackWith card f)) -> do
             putStrLn $ "\n\nNew round"
+            putStrLn $ show st
             putStrLn $ "Offense attacks with " ++ show card
             putStrLn $ show st'
             debugInterp st' f
@@ -40,6 +41,7 @@ quietInterp :: GameData -> GameDSL r -> IO ()
 quietInterp st act =
     let (act', st') = runState (FT.runFreeT act) st
     in case act' of
+        -- FIXME: there's gotta be a better way here.
         (FT.Free (AttackWith card f)) -> do
             quietInterp st' f
         (FT.Free (PassWith card f)) -> do
