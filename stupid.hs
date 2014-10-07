@@ -78,8 +78,8 @@ reinforceStage = do
             defendStage
 
 possibleReinforcements = do
-    suits <- map cSuit <$> playedCards
-    filter ((`elem` suits) . cSuit) <$> getHand Offense
+    ranks <- map cRank <$> playedCards
+    filter ((`elem` ranks) . cRank) <$> getHand Offense
 
 verdictStage numUncovered = do
     case numUncovered of

@@ -18,4 +18,8 @@ interpT st act =
             putStr $ "Defense passes with " ++ show card
             putStrLn $ "; roles switch\n" ++ show st'
             interpT st' f
+        (FT.Free (ReinforceWith cards f)) -> do
+            putStrLn $ "Offense reinforces with " ++ show cards
+            putStrLn $ show st'
+            interpT st' f
         FT.Pure _ -> return ()

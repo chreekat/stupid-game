@@ -18,12 +18,11 @@ data GameAction nxt
     = AttackWith Card nxt
     | PassWith Card nxt
     | Defend PlayedCard Card nxt
+    | ReinforceWith [Card] nxt
     deriving (Functor)
 
 type GameDSL = FreeT GameAction GameState
 
-reinforceWith = undefined
-playedCards = undefined
 tieGame = undefined
 winner = undefined
 winTurn = undefined
@@ -58,7 +57,6 @@ trumpCards role = do
 tableSize :: GameDSL Int
 tableSize = length <$> lift (gets table)
 
-
 cardsRanked :: Rank -> Role -> GameDSL [Card]
 cardsRanked r role = do
     hand <- getHand role
@@ -82,3 +80,19 @@ defend pc c = do
     assert (pc `elem` table)
     lift $ GS.coverCard pc c
     liftF $ Defend pc c ()
+
+playedCards :: GameDSL [Card]
+playedCards = do
+    t <- lift $ gets table
+    return $ concatMap bothCards t
+
+  where
+
+    bothCards (PC ca co) = case co of
+        Just co' -> [ca, co']
+        _        -> [ca]
+
+reinforceWith :: [Card] -> GameDSL ()
+reinforceWith cs = do
+    mapM_ (playCard Offense) cs
+    liftF $ ReinforceWith cs ()
