@@ -18,6 +18,7 @@ data PlayedCard = PC {
     card :: Card,
     cover :: Maybe Card
 }
+    deriving (Eq, Ord)
 
 data Card = Card Suit Rank
     deriving (Eq)

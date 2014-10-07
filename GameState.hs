@@ -6,6 +6,9 @@ import Types
 
 type GameState = State GameData
 
+getTrump :: GameState Suit
+getTrump = gets trump
+
 getHand :: Role -> GameState [Card]
 getHand role = do
     p <- case role of
