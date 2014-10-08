@@ -60,3 +60,9 @@ playerNum r = case r of
     Offense -> (pid . offense) <$> get
     Defense -> (pid . defense) <$> get
 
+swapRoles :: GameState ()
+swapRoles = do
+    dat <- get
+    let o = offense dat
+        d = defense dat
+    put dat { offense = d, defense = o }

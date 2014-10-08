@@ -52,20 +52,13 @@ trumpCards role = do
     t <- getTrump
     filter ((== t) . cSuit) <$> getHand role
 
-tableSize :: GameDSL Int
-tableSize = length <$> lift (gets table)
-
 passWith card = do
     playCard Defense card
     swapRoles
     liftF $ PassWith card id
 
 swapRoles :: GameDSL ()
-swapRoles = do
-    dat <- lift get
-    let o = offense dat
-        d = defense dat
-    lift $ put dat { offense = d, defense = o }
+swapRoles = lift $ GS.swapRoles
 
 defend :: PlayedCard -> Card -> GameDSL ()
 defend pc c = do
@@ -79,7 +72,7 @@ defend pc c = do
 
 playedCards :: GameDSL [Card]
 playedCards = do
-    t <- lift $ gets table
+    t <- getTable
     return $ concatMap bothCards t
 
   where

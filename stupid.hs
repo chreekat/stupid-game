@@ -28,7 +28,7 @@ attackStage = do
 passStage rank = do
     t <- getTrump
     nOff <- length <$> getHand Offense
-    nTable <- tableSize
+    nTable <- length <$> getTable
     card <- (minCard t . cardsRanked rank) <$> getHand Defense
     case (compare nOff nTable, card) of
         -- offense has enough cards && defense has one to play
